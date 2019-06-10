@@ -1,0 +1,19 @@
+{
+  "name": "usn-notification",
+  "version": "0.1.0",
+  "description": "Ubuntu Security Notices DynamoDB stream Lambda function",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oke-py/usn-notification.git"
+  },
+  "author": "Naoki Oketani <okepy.naoki@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oke-py/usn-notification/issues"
+  },
+  "homepage": "https://github.com/oke-py/usn-notification#readme"
+}
