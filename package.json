@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/oke-py/usn-notification/issues"
   },
-  "homepage": "https://github.com/oke-py/usn-notification#readme"
+  "homepage": "https://github.com/oke-py/usn-notification#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^5.16.0"
+  }
 }
