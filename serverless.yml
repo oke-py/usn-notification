@@ -24,28 +24,39 @@ provider:
   runtime: nodejs10.x
 
 # you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
+  stage: ${opt:stage, "dev"}
+  region: ap-northeast-1
 
 # you can add statements to the Lambda function's IAM Role here
-#  iamRoleStatements:
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:ListBucket"
-#      Resource: { "Fn::Join" : ["", ["arn:aws:s3:::", { "Ref" : "ServerlessDeploymentBucket" } ] ]  }
-#    - Effect: "Allow"
-#      Action:
-#        - "s3:PutObject"
-#      Resource:
-#        Fn::Join:
-#          - ""
-#          - - "arn:aws:s3:::"
-#            - "Ref" : "ServerlessDeploymentBucket"
-#            - "/*"
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "logs:CreateLogGroup"
+        - "logs:CreateLogStream"
+        - "logs:PutLogEvents"
+      Resource: "arn:aws:logs:*:*:*"
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:DescribeStream"
+        - "dynamodb:GetRecords"
+        - "dynamodb:GetShardIterator"
+        - "dynamodb:ListStreams"
+      Resource: ${self:custom.table-arn.${self:provider.stage}}
 
 # you can define service wide environment variables here
-#  environment:
-#    variable1: value1
+  environment:
+    table: ${self:custom.table.${self:provider.stage}}
+
+custom:
+  table:
+    dev: "usn-dev"
+    prod: "usn"
+  table-arn:
+    dev: "arn:aws:dynamodb:ap-northeast-1:313471890455:table/usn-dev"
+    prod: "arn:aws:dynamodb:ap-northeast-1:313471890455:table/usn"
+  stream-arn:
+    dev: "arn:aws:dynamodb:ap-northeast-1:313471890455:table/usn-dev/stream/2019-06-10T14:33:35.862"
+    prod: "arn:aws:dynamodb:ap-northeast-1:313471890455:table/usn/stream/2019-06-10T15:02:43.518"
 
 # you can add packaging information here
 #package:
@@ -57,8 +68,10 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  hello:
-    handler: handler.hello
+  run:
+    handler: handler.run
+    events:
+      - stream: ${self:custom.stream-arn.${self:provider.stage}}
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
