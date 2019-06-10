@@ -41,7 +41,7 @@ provider:
         - "dynamodb:GetRecords"
         - "dynamodb:GetShardIterator"
         - "dynamodb:ListStreams"
-      Resource: ${self:custom.stream-arn.${self:provider.stage}}
+      Resource: ${self:custom.table-arn.${self:provider.stage}}
 
 # you can define service wide environment variables here
   environment:
@@ -51,6 +51,9 @@ custom:
   table:
     dev: "usn-dev"
     prod: "usn"
+  table-arn:
+    dev: "arn:aws:dynamodb:ap-northeast-1:313471890455:table/usn-dev"
+    prod: "arn:aws:dynamodb:ap-northeast-1:313471890455:table/usn"
   stream-arn:
     dev: "arn:aws:dynamodb:ap-northeast-1:313471890455:table/usn-dev/stream/*"
     prod: "arn:aws:dynamodb:ap-northeast-1:313471890455:table/usn/stream/*"
