@@ -1,4 +1,4 @@
-# usn-api
+# usn-notification
 
 [![CircleCI](https://circleci.com/gh/oke-py/usn-notification.svg?style=svg)](https://circleci.com/gh/oke-py/usn-notification)
 
