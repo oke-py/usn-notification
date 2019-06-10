@@ -56,7 +56,7 @@ custom:
     prod: "arn:aws:dynamodb:ap-northeast-1:313471890455:table/usn"
   stream-arn:
     dev: "arn:aws:dynamodb:ap-northeast-1:313471890455:table/usn-dev/stream/2019-06-10T14:33:35.862"
-    prod: "arn:aws:dynamodb:ap-northeast-1:313471890455:table/usn/stream/*"
+    prod: "arn:aws:dynamodb:ap-northeast-1:313471890455:table/usn/stream/2019-06-10T15:02:43.518"
 
 # you can add packaging information here
 #package:
