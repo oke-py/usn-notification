@@ -4,6 +4,7 @@
   "description": "Ubuntu Security Notices DynamoDB stream Lambda function",
   "main": "handler.js",
   "scripts": {
+    "lint": "eslint handler.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
