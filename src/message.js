@@ -1,13 +1,17 @@
 'use strict';
 
 module.exports.create = (notice) => {
+  const link = 'https://usn.ubuntu.com/' + notice.usn_id.S.slice(4) + '/';
+  const affects1604 = notice.affects_1604.BOOL ? 'Affected' : 'Not Affected';
+  const affects1804 = notice.affects_1804.BOOL ? 'Affected' : 'Not Affected';
+
   return {
     'attachments': [
       {
-        'fallback': 'some text',
+        'fallback': `${notice.usn_id.S}: ${notice.name.S} vulnerability`,
         'color': 'danger',
         'title': notice.usn_id.S,
-        'title_link': '',
+        'title_link': link,
         'fields': [
           {
             'title': 'Package name',
@@ -22,12 +26,12 @@ module.exports.create = (notice) => {
           {
             'title': 'Ubuntu 16.04 LTS',
             'value': 'Affected',
-            'short': true
+            'short': affects1604
           },
           {
             'title': 'Ubuntu 18.04 LTS',
             'value': 'Not Affected',
-            'short': true
+            'short': affects1804
           }
         ]
       }
