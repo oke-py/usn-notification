@@ -14,7 +14,7 @@ module.exports.run = async (event) => {
       if (['Critical', 'High', 'Medium'].includes(newItem.severity.S)) {
         const webhook = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL);
         const body = message.create(newItem);
-        console.log('to be sent:', body);
+        console.log('to be sent: %j', body);
 
         webhook.send(body).then((res) => {
           console.info(res);
