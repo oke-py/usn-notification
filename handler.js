@@ -1,6 +1,10 @@
 'use strict';
 
 module.exports.run = async (event) => {
+  event.Records.forEach((record) => {
+    console.log('イベント種別', record.eventName);
+    console.log('DynamoDB Record: %j', record.dynamodb);
+  });
   return {
     statusCode: 200,
     body: JSON.stringify({
