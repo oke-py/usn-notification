@@ -1,9 +1,24 @@
 'use strict';
 
 module.exports.run = async (event) => {
+  const message = require('./src/message');
+
   event.Records.forEach((record) => {
-    console.log('イベント種別', record.eventName);
+    console.log('event type:', record.eventName);
     console.log('DynamoDB Record: %j', record.dynamodb);
+
+    if (record.eventName === 'INSERT') {
+      const newItem = record.dynamodb.NewImage;
+
+      if (['Critical', 'High', 'Medium'].includes(newItem.severity.S)) {
+        const webhook = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL);
+        await webhook.send(message.create(newItem)).then((res) => {
+          console.info(res);
+        }).catch((error) => {
+          throw new Error(error);
+        });
+      }
+    }
   });
   return {
     statusCode: 200,
