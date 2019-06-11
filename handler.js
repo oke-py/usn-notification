@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports.run = async (event) => {
+  const { IncomingWebhook } = require('@slack/webhook');
   const message = require('./src/message');
 
   event.Records.forEach((record) => {
@@ -12,7 +13,7 @@ module.exports.run = async (event) => {
 
       if (['Critical', 'High', 'Medium'].includes(newItem.severity.S)) {
         const webhook = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL);
-        await webhook.send(message.create(newItem)).then((res) => {
+        webhook.send(message.create(newItem)).then((res) => {
           console.info(res);
         }).catch((error) => {
           throw new Error(error);
