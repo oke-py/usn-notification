@@ -25,13 +25,13 @@ module.exports.create = (notice) => {
           },
           {
             'title': 'Ubuntu 16.04 LTS',
-            'value': 'Affected',
-            'short': affects1604
+            'value': affects1604,
+            'short': true
           },
           {
             'title': 'Ubuntu 18.04 LTS',
-            'value': 'Not Affected',
-            'short': affects1804
+            'value': affects1804,
+            'short': true
           }
         ]
       }
