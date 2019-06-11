@@ -34,14 +34,28 @@ provider:
         - "logs:CreateLogGroup"
         - "logs:CreateLogStream"
         - "logs:PutLogEvents"
-      Resource: "arn:aws:logs:*:*:*"
+      Resource:
+        Fn::Join:
+          - ':'
+          -
+            - 'arn:aws:logs'
+            - Ref: 'AWS::Region'
+            - Ref: 'AWS::AccountId'
+            - 'log-group:/aws/lambda/*:*:*'
     - Effect: "Allow"
       Action:
         - "dynamodb:DescribeStream"
         - "dynamodb:GetRecords"
         - "dynamodb:GetShardIterator"
         - "dynamodb:ListStreams"
-      Resource: ${self:custom.table-arn.${self:provider.stage}}
+      Resource:
+        Fn::Join:
+          - ':'
+          -
+            - 'arn:aws:dynamodb'
+            - Ref: 'AWS::Region'
+            - Ref: 'AWS::AccountId'
+            - 'table/${self:custom.table.${self:provider.stage}}'
 
 # you can define service wide environment variables here
   environment:
@@ -51,9 +65,6 @@ custom:
   table:
     dev: "usn-dev"
     prod: "usn"
-  table-arn:
-    dev: "arn:aws:dynamodb:ap-northeast-1:313471890455:table/usn-dev"
-    prod: "arn:aws:dynamodb:ap-northeast-1:313471890455:table/usn"
   stream-arn:
     dev: "arn:aws:dynamodb:ap-northeast-1:313471890455:table/usn-dev/stream/2019-06-10T14:33:35.862"
     prod: "arn:aws:dynamodb:ap-northeast-1:313471890455:table/usn/stream/2019-06-10T15:02:43.518"
