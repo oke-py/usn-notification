@@ -4,7 +4,7 @@ module.exports.run = async (event) => {
   const { IncomingWebhook } = require('@slack/webhook');
   const message = require('./src/message');
 
-  event.Records.forEach((record) => {
+  Promise.all(event.Records.map(async record => {
     console.log('event type:', record.eventName);
     console.log('DynamoDB Record: %j', record.dynamodb);
 
@@ -16,16 +16,14 @@ module.exports.run = async (event) => {
         const body = message.create(newItem);
         console.log('to be sent: %j', body);
 
-        (async (body) => {
-          await webhook.send(body).then((res) => {
-            console.info(res);
-          }).catch((error) => {
-            throw new Error(error);
-          });
-        })();
+        await webhook.send(body).then((res) => {
+          console.info(res);
+        }).catch((error) => {
+          throw new Error(error);
+        });
       }
     }
-  });
+  }));
 
   return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };
