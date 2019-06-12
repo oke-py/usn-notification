@@ -16,11 +16,7 @@ module.exports.run = async (event) => {
         const body = message.create(newItem);
         console.log('to be sent: %j', body);
 
-        await webhook.send(body).then((res) => {
-          console.info(res);
-        }).catch((error) => {
-          throw new Error(error);
-        });
+        return await webhook.send(body);
       }
     }
   }));
