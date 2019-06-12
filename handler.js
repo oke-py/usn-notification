@@ -11,7 +11,7 @@ module.exports.run = async (event) => {
     if (record.eventName === 'INSERT') {
       const newItem = record.dynamodb.NewImage;
 
-      if (['Critical', 'High', 'Medium'].includes(newItem.severity.S)) {
+      if (['Critical', 'High'].includes(newItem.severity.S)) {
         const webhook = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL);
         const body = message.create(newItem);
         console.log('to be sent: %j', body);
