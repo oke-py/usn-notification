@@ -4,7 +4,7 @@ module.exports.run = async (event) => {
   const { IncomingWebhook } = require('@slack/webhook');
   const message = require('./src/message');
 
-  Promise.all(event.Records.map(async record => {
+  await Promise.all(event.Records.map(async record => {
     console.log('event type:', record.eventName);
     console.log('DynamoDB Record: %j', record.dynamodb);
 
