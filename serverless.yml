@@ -61,6 +61,7 @@ provider:
 # you can define service wide environment variables here
   environment:
     table: ${self:custom.table.${self:provider.stage}}
+    SLACK_WEBHOOK_URL: ${ssm:/usn/${self:provider.stage}/SLACK_WEBHOOK_URL}
 
 custom:
   table:
