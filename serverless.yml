@@ -71,7 +71,14 @@ custom:
 # you can add packaging information here
 package:
   exclude:
+    - .c9/**
+    - .circleci/**
     - .git/**
+    - .nyc_output/**
+    - test/**
+    - .editorconfig
+    - .eslintrc.yml
+    - LICENSE
     - README.md
 
 functions:
