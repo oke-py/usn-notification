@@ -67,24 +67,23 @@ custom:
   table:
     dev: "usn-dev"
     prod: "usn"
-  stream-arn:
-    dev: "arn:aws:dynamodb:ap-northeast-1:313471890455:table/usn-dev/stream/2019-06-10T14:33:35.862"
-    prod: "arn:aws:dynamodb:ap-northeast-1:313471890455:table/usn/stream/2019-06-10T15:02:43.518"
 
 # you can add packaging information here
-#package:
-#  include:
-#    - include-me.js
-#    - include-me-dir/**
-#  exclude:
-#    - exclude-me.js
-#    - exclude-me-dir/**
+package:
+  exclude:
+    - .git/**
+    - README.md
 
 functions:
   run:
     handler: handler.run
     events:
-      - stream: ${self:custom.stream-arn.${self:provider.stage}}
+      - stream:
+          type: dynamodb
+          arn:
+            Fn::GetAtt:
+              - UsnTable
+              - StreamArn
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
@@ -121,12 +120,31 @@ functions:
 #      variable2: value2
 
 # you can add CloudFormation resource templates here
-#resources:
-#  Resources:
-#    NewResource:
-#      Type: AWS::S3::Bucket
-#      Properties:
-#        BucketName: my-new-bucket
+resources:
+  Resources:
+    UsnTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.table.${self:provider.stage}}
+        AttributeDefinitions:
+          -
+            AttributeName: "usn_id"
+            AttributeType: "S"
+          -
+            AttributeName: "published"
+            AttributeType: "S"
+        KeySchema:
+          -
+            AttributeName: "usn_id"
+            KeyType: "HASH"
+          -
+            AttributeName: "published"
+            KeyType: "RANGE"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+        StreamSpecification:
+          StreamViewType: NEW_AND_OLD_IMAGES
 #  Outputs:
 #     NewOutput:
 #       Description: "Description for the output"
