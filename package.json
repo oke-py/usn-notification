@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/oke-py/usn-notification#readme",
   "dependencies": {
-    "@slack/webhook": "^5.0.3"
+    "@slack/webhook": "^5.0.4"
   },
   "devDependencies": {
     "coveralls": "^3.0.9",
