@@ -1,6 +1,6 @@
 {
   "name": "usn-notification",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Ubuntu Security Notices DynamoDB stream Lambda function",
   "main": "handler.js",
   "scripts": {
