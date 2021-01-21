@@ -26,7 +26,7 @@ jobs:
       - deploy:
           name: sls deploy
           command: |
-              if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              if [ "${CIRCLE_BRANCH}" == "main" ]; then
                 sls deploy --stage prod --verbose
               else
                 sls deploy --stage dev --verbose
